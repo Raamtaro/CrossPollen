@@ -58,7 +58,7 @@ void main () {
     float iorRatioB = 1.0 / uIorB;
 
     vec3 color = vec3(0.0);
-    vec2 uv = (gl_FragCoord.xy/uResolution.xy - 0.5) * uResolution.x/uResolution.y + 0.5;
+    vec2 uv = gl_FragCoord.xy/uResolution.xy;
     vec3 normal = worldNormal;
 
     for (int i = 0; i < LOOP; i++) {

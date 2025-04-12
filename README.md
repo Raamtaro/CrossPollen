@@ -10,12 +10,16 @@ This is meant to be iterated upon.
 ### How to use:
 1. Fork/Copy (please fork if you're an outsider) this repo using `git clone` in the CLI
 
-2. Run, in the CLI:
+2. Run `git remote remove origin` to detach from this github repo. Don't skip this step, this is the whole point of this repo.
+   
+3. Follow [this guide](https://docs.github.com/en/migrations/importing-source-code/using-the-command-line-to-import-source-code/adding-locally-hosted-code-to-github) to configure to a new github repo of your making and choosing.
+
+4. Run, in the CLI:
     ```
     npm install
     ```
 
-3. Next, run:
+5. Next, run:
     ```
     npm run dev
     ```
