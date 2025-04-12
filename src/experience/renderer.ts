@@ -33,7 +33,7 @@ class Renderer {
         this.instance.setPixelRatio(this.size.pixelRatio)
         this.instance.outputColorSpace = THREE.SRGBColorSpace
 
-        this.instance.setClearColor('#ebebeb')
+        this.instance.setClearColor('#f0ead6')
         //'#ebebeb'
     }
 
