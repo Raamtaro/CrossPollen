@@ -18,7 +18,7 @@ class GlassDoor {
     private dimensions: Sizes
     private time: TimeKeeper
     private mouse: Mouse
-    private geometry: THREE.PlaneGeometry 
+    private geometry: THREE.PlaneGeometry | THREE.TorusGeometry
     private material: ShaderMaterial 
     private baseScale: boolean | null = null
 
@@ -28,7 +28,7 @@ class GlassDoor {
     public instance: Mesh
 
 
-    constructor() {
+    constructor(config: number = 1) {
         this.experience = Experience.getInstance()
         
         this.dimensions = this.experience.size
@@ -38,7 +38,7 @@ class GlassDoor {
         this.renderer = this.experience.renderer
 
 
-        this.geometry = new THREE.PlaneGeometry(10, 10)
+        this.geometry = new THREE.PlaneGeometry(7.5, 7.5) //Config #1
         this.material = new ShaderMaterial(
             {
                 uniforms: {

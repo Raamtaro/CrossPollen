@@ -32,7 +32,7 @@ class Resources extends EventEmitter {
     }
 
     private init(): void {
-        this.dracoLoader.setDecoderPath('gl_loader/draco/')
+        this.dracoLoader.setDecoderPath('models/draco/')
         this.gltfLoader.setDRACOLoader(this.dracoLoader)
         
 
@@ -81,7 +81,7 @@ class Resources extends EventEmitter {
     private sourceLoaded (source: ModelInfo, file: ResourceFile): void {
         this.items[source.name] = file
         this.loaded++
-        // console.log(file)
+        console.log(file)
 
     }
 }

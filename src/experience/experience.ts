@@ -7,8 +7,7 @@ import Mouse from '../utils/mouse.ts';
 
 import Renderer from './renderer.ts';
 import Camera from './camera.ts';
-
-// import HelloWorld from './helloWorld/helloWorld.ts';
+import Resources from '../utils/emitters/resourceLoader/resources.ts';
 import ParticleSphere from './particles/main/particleSphere.ts';
 import GlassDoor from './glass/glassDoor.ts';
 
@@ -37,8 +36,8 @@ class Experience {
     public camera: Camera
     public mouse: Mouse
     public scene: THREE.Scene
-    // public helloWorld: HelloWorld
-    public particleSphere: ParticleSphere
+    public resources: Resources
+    public particleSphere: ParticleSphere | null = null
     public glassDoor: GlassDoor
 
     // private rendererables: (Points | Mesh)[] = []
@@ -56,11 +55,19 @@ class Experience {
         this.renderer = new Renderer()
         this.scene = new THREE.Scene()
 
-        // this.helloWorld = new HelloWorld()
-        this.particleSphere = new ParticleSphere()
+        this.resources = new Resources()
+        console.log(typeof this.resources.items)
+        
+        // this.particleSphere = new ParticleSphere()
+        // this.glassDoor = new GlassDoor()
         this.glassDoor = new GlassDoor()
-
+        this.resources.on('ready', this.init.bind(this))
         this.time.on('tick', this.render.bind(this)) 
+    }
+
+    private init(): void {
+        this.particleSphere = new ParticleSphere()
+        
     }
 
 
