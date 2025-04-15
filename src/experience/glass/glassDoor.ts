@@ -80,6 +80,7 @@ class GlassDoor {
         this.instance.position.set(0, 0, 0)
 
         this.type = this.getOptimalDataType()
+        this.debugDataType() //Debugging the data type to the HTML
 
         console.log(this.type)
 
@@ -99,6 +100,20 @@ class GlassDoor {
     private init(): void {
         this.configSize()
         this.experience.scene.add(this.instance)
+    }
+
+    private debugDataType(): void {
+        /**
+         * Directly displays this.type into the HTML
+         */
+        const debugElement = document.createElement('div');
+        debugElement.style.position = 'absolute';
+        debugElement.style.top = '10px';
+        debugElement.style.left = '10px';
+        debugElement.style.color = 'black';
+        debugElement.style.fontSize = '16px';
+        debugElement.textContent = `Texture Data Type: ${this.type}`;
+        document.body.appendChild(debugElement);
     }
 
     private getOptimalDataType(): THREE.TextureDataType {
