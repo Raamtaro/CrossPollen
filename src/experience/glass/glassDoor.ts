@@ -24,6 +24,7 @@ class GlassDoor {
 
     private fbo: THREE.WebGLRenderTarget
     private type: THREE.TextureDataType
+    private debugElement: HTMLDivElement
     
 
     public instance: Mesh
@@ -79,8 +80,10 @@ class GlassDoor {
 
         this.instance.position.set(0, 0, 0)
 
-        this.type = this.getOptimalDataType()
+        this.debugElement = document.createElement('div');
         this.debugDataType() //Debugging the data type to the HTML
+        this.type = this.getOptimalDataType()
+       
 
         console.log(this.type)
 
@@ -106,14 +109,12 @@ class GlassDoor {
         /**
          * Directly displays this.type into the HTML
          */
-        const debugElement = document.createElement('div');
-        debugElement.style.position = 'absolute';
-        debugElement.style.top = '10px';
-        debugElement.style.left = '10px';
-        debugElement.style.color = 'black';
-        debugElement.style.fontSize = '16px';
-        debugElement.textContent = `Texture Data Type: ${this.type}`;
-        document.body.appendChild(debugElement);
+        
+        this.debugElement.style.position = 'absolute';
+        this.debugElement.style.top = '10px';
+        this.debugElement.style.left = '10px';
+        this.debugElement.style.color = 'black';
+        this.debugElement.style.fontSize = '16px';
     }
 
     private getOptimalDataType(): THREE.TextureDataType {
@@ -121,23 +122,31 @@ class GlassDoor {
         if (this.renderer.instance.capabilities.isWebGL2) {
             if (gl.getExtension('EXT_color_buffer_float')) {
 
-                console.log('extension EXT_color_buffer_float is supported');
+                // console.log('extension EXT_color_buffer_float is supported');
+                this.debugElement.textContent = `extension EXT_color_buffer_float is supported. Texture Data Type: ${THREE.FloatType}`;
+                document.body.appendChild(this.debugElement);
                 return THREE.FloatType; 
             }
 
         }
         else {
             if (gl.getExtension('OES_texture_float')) {
-                console.log('extension OES_texture_float is supported');
+                // console.log('extension OES_texture_float is supported');
+                this.debugElement.textContent = `extension OES_texture_float. Texture Data Type: ${THREE.FloatType}`;
+                document.body.appendChild(this.debugElement);
                 return THREE.FloatType;
             }
 
             if (gl.getExtension('OES_texture_half_float')) {
                 console.log('extension OES_texture_half_float is supported');
+                this.debugElement.textContent = `extension OES_texture_half_float. Texture Data Type: ${THREE.HalfFloatType}`;
+                document.body.appendChild(this.debugElement);
                 return THREE.HalfFloatType; 
             }
         }
         console.log('No suitable texture data type found, defaulting to UnsignedByteType');
+        this.debugElement.textContent = `No suitable texture data type found, defaulting to UnsignedByteType`;
+        document.body.appendChild(this.debugElement);
         return THREE.UnsignedByteType; 
     }
 
