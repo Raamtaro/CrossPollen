@@ -104,13 +104,13 @@ void main () {
 
     color /= float(LOOP);
 
-    // // Specular
-    // float specularLight = specular(uLight, uShininess, uDiffuseness);
-    // color += specularLight;
+    // Specular
+    float specularLight = specular(uLight, uShininess, uDiffuseness);
+    color += specularLight;
 
-    // // Fresnel
-    // float f = fresnel(eyeVector, normal, uFresnelPower);
-    // color.rgb += f * vec3(1.0);
+    // Fresnel
+    float f = fresnel(eyeVector, normal, uFresnelPower);
+    color.rgb += f * vec3(1.0);
 
     gl_FragColor = vec4(color, 1.0);
     // gl_FragColor = vec4(uv, 1.0, 1.0);

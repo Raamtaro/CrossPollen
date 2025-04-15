@@ -16,7 +16,7 @@
 html, body{
   height: 100%;
   
-  background: black;
+  /* background: black; */
 
   
 }
@@ -74,7 +74,7 @@ header {
 
   align-items: center;
   justify-content: center;
-  font-size: 7.5rem;
+  font-size: 4.2rem;
   letter-spacing: 2.5rem;
 
   pointer-events: none;
@@ -98,7 +98,7 @@ header {
 
   /* Header */
   header {
-    font-size: 6rem;
+    font-size: 4rem;
   }
 
   
@@ -106,7 +106,7 @@ header {
 
 @media only screen and (max-width: 640px) {
   header {
-    font-size: 4rem;
+    font-size: 3rem;
   }
 }
 

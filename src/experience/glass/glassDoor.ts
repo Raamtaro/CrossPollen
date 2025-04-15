@@ -18,17 +18,17 @@ class GlassDoor {
     private dimensions: Sizes
     private time: TimeKeeper
     private mouse: Mouse
-    private geometry: THREE.PlaneGeometry | THREE.TorusGeometry
+    private geometry?: THREE.PlaneGeometry | THREE.TorusGeometry
     private material: ShaderMaterial 
     private baseScale: boolean | null = null
 
     private fbo: THREE.WebGLRenderTarget
     
 
-    public instance: Mesh
+    public instance: Mesh | THREE.Group
 
 
-    constructor(config: number = 1) {
+    constructor() {
         this.experience = Experience.getInstance()
         
         this.dimensions = this.experience.size
@@ -38,7 +38,7 @@ class GlassDoor {
         this.renderer = this.experience.renderer
 
 
-        this.geometry = new THREE.PlaneGeometry(7.5, 7.5) //Config #1
+        
         this.material = new ShaderMaterial(
             {
                 uniforms: {
@@ -67,8 +67,20 @@ class GlassDoor {
             }
         )
 
+        //Config #1
+        // this.geometry = new THREE.PlaneGeometry(7.5, 7.5) 
+        // this.geometry = new THREE.TorusGeometry(3.5, 1.2, 16, 100) //This is the torus geometry
+        this.geometry = new THREE.BoxGeometry(5., 5., 5.) //This is the box geometry
         this.instance = new Mesh(this.geometry, this.material)
-        this.instance.position.set(0, 0, 3.5)
+
+
+        // //Config #2
+        // this.instance = new THREE.Group()
+        // this.sceneSetup()
+
+
+
+        this.instance.position.set(0, 0, 0)
 
         this.fbo = new THREE.WebGLRenderTarget(this.dimensions.width * this.dimensions.pixelRatio, this.dimensions.height * this.dimensions.pixelRatio, 
             {
@@ -86,6 +98,24 @@ class GlassDoor {
     private init(): void {
         this.configSize()
         this.experience.scene.add(this.instance)
+    }
+
+    private sceneSetup(): void { //Config #2
+        let i = 0;
+        while (i < 3) {
+            const newMesh = new THREE.Mesh(new THREE.PlaneGeometry(2.5, 7.5), this.material)
+            if (i == 0) {
+                newMesh.position.set(-2.75, 1.8705, 0)
+            } 
+
+            if (i == 2) {
+                newMesh.position.set(2.75, -1.8705, 0)
+            }
+
+            this.instance.add(newMesh)
+            i++
+        }
+
     }
 
     private configSize(): void {
@@ -108,7 +138,7 @@ class GlassDoor {
     }
 
     private scaleResize(): void {
-        (this.instance.material as ShaderMaterial).uniforms.uResolution.value = new THREE.Vector2(this.dimensions.width * this.dimensions.pixelRatio, this.dimensions.height * this.dimensions.pixelRatio)
+        (this.material as ShaderMaterial).uniforms.uResolution.value = new THREE.Vector2(this.dimensions.width * this.dimensions.pixelRatio, this.dimensions.height * this.dimensions.pixelRatio)
 
         if (this.dimensions.width <= 1000) { //Will get caught if we resize to 1000 or under
             if (this.baseScale && !(this.instance === null)) { //Checking to see what the baseScale is set at
@@ -137,19 +167,19 @@ class GlassDoor {
         this.renderer.instance.setRenderTarget(this.fbo as THREE.WebGLRenderTarget);
         this.renderer.instance.render(this.experience.scene, this.experience.camera.instance);
         
-        (this.instance.material as ShaderMaterial).uniforms.uTargetTexture.value = this.fbo.texture;
-        (this.instance.material as ShaderMaterial).uniforms.uTargetTexture.value.needsUpdate = true;
+        (this.material as ShaderMaterial).uniforms.uTargetTexture.value = this.fbo.texture;
+        (this.material as ShaderMaterial).uniforms.uTargetTexture.value.needsUpdate = true;
 
         this.renderer.instance.setRenderTarget(null)
         this.instance.visible = true
     }
 
     private update(): void {
-        (this.instance.material as ShaderMaterial).uniforms.uTime.value = this.time.uniformElapsed
-        this.instance.rotation.x = -.23 * this.mouse.coords_trail.y;
-        this.instance.rotation.y = .23 * this.mouse.coords_trail.x;
-        // this.instance.rotation.x += 0.001
-        // this.instance.rotation.y += 0.001
+        (this.material as ShaderMaterial).uniforms.uTime.value = this.time.uniformElapsed
+        // this.instance.rotation.x = -.23 * this.mouse.coords_trail.y;
+        // this.instance.rotation.y = .23 * this.mouse.coords_trail.x;
+        this.instance.rotation.x += 0.001
+        this.instance.rotation.y += 0.001
         // this.instance.position.y = .195 * Math.sin(this.time.uniformElapsed * 0.13);
 
         

@@ -53,7 +53,7 @@ class ParticleSphere {
         this.mouse = this.experience.mouse
         this.models = this.experience.resources.items
 
-        this.geometry = !name ? new IcosahedronGeometry(2, 128) : this.setGeometry(name)
+        this.geometry = !name ? new IcosahedronGeometry(2, 100) : this.setGeometry(name)
         this.gpgpu = new Gpgpu(this.geometry)
         this.count = this.gpgpu.count
         this.size = this.gpgpu.size
@@ -131,12 +131,12 @@ class ParticleSphere {
         //Check to set the right size at first
 
         if (this.dimensions.width <= 1000) {
-            this.points.scale.set(.5, .5, .5)
+            this.points.scale.set(.05, .05, .05)
             // console.log(typeof this.points.scale)
             this.baseScale = false
         } 
         else {
-            this.points.scale.set(0.95, 0.95, 0.95) //1000 and above
+            this.points.scale.set(0.1, 0.1, 0.1) //1000 and above
             this.baseScale = true //This means that we are scaling for 1000+
         }
 
@@ -157,7 +157,7 @@ class ParticleSphere {
         // console.log(Setup.width)
         if (this.dimensions.width <= 1000) { //Will get caught if we resize to 1000 or under
             if (this.baseScale && !(this.points === null)) { //Checking to see what the baseScale is set at
-                this.points.scale.set(.5, .5, .5)
+                this.points.scale.set(.05, .05, .05)
                 this.baseScale = false //This means that we are viewing with a smaller screen
             }
             return //If it reaches here, then this.baseScale was already false, and there's no action needs
@@ -166,7 +166,7 @@ class ParticleSphere {
         //Will pass the above check as long as we resize to above 1000
 
         if (!this.baseScale && !(this.points === null)) { //Is the screen small?
-            this.points.scale.set(.95, .95, .95)
+            this.points.scale.set(.125, .125, .125)
             this.baseScale = true
         }
         return
@@ -178,8 +178,8 @@ class ParticleSphere {
         // this.shaderMaterial.uniforms.uMouse.value.x = this.mouse.coords_trail.x;
         // this.shaderMaterial.uniforms.uMouse.value.y = this.mouse.coords_trail.y;
 
-        (this.points as Points).rotation.y += 0.00025; 
-        (this.points as Points).rotation.x += 0.00025; 
+        (this.points as Points).rotation.y -= 0.00025; 
+        (this.points as Points).rotation.x -= 0.00025; 
     }
 
 

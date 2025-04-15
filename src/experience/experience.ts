@@ -59,13 +59,14 @@ class Experience {
         console.log(typeof this.resources.items)
         
         // this.particleSphere = new ParticleSphere()
-        // this.glassDoor = new GlassDoor()
+        
         this.glassDoor = new GlassDoor()
         this.resources.on('ready', this.init.bind(this))
         this.time.on('tick', this.render.bind(this)) 
     }
 
     private init(): void {
+       
         this.particleSphere = new ParticleSphere()
         
     }

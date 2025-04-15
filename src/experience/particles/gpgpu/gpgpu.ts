@@ -74,7 +74,7 @@ class Gpgpu {
         this.particlesVariable.material.uniforms.uDeltaTime = new Uniform(0)
         this.particlesVariable.material.uniforms.uBase = new Uniform(this.baseParticlesTexture)
         this.particlesVariable.material.uniforms.uFlowFieldInfluence = new Uniform(0.504)
-        this.particlesVariable.material.uniforms.uFlowFieldStrength = new Uniform(1.35)
+        this.particlesVariable.material.uniforms.uFlowFieldStrength = new Uniform(.65)
         this.particlesVariable.material.uniforms.uFlowFieldFrequency = new Uniform(.772)
         this.particlesVariable.material.uniforms.uVelocity = new Uniform(0.0)
         this.particlesVariable.material.uniforms.uMouse = new Uniform(new Vector2(-10.0, 10.0))        
@@ -85,7 +85,7 @@ class Gpgpu {
 
         this.particlesVariable.material.uniforms.uTime.value = this.time.uniformElapsed
         this.particlesVariable.material.uniforms.uDeltaTime.value = this.time.uniformDelta
-        this.particlesVariable.material.uniforms.uVelocity.value = this.experience.mouse.targetVelocity
+        this.particlesVariable.material.uniforms.uVelocity.value = this.experience.mouse.targetVelocity * 0.25
 
         this.instance.compute()
 
