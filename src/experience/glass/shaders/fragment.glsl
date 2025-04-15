@@ -67,12 +67,12 @@ void main () {
     for (int i = 0; i < LOOP; i++) {
         float slide = float(i) / float(LOOP) * 0.1;
 
-        vec3 refractVecR = refract(eyeVector, normal,(1.0/uIorR));
-        vec3 refractVecY = refract(eyeVector, normal, (1.0/uIorY+uOffset));
-        vec3 refractVecG = refract(eyeVector, normal, (1.0/uIorG));
-        vec3 refractVecC = refract(eyeVector, normal, (1.0/uIorC+uOffset));
-        vec3 refractVecB = refract(eyeVector, normal, (1.0/uIorB));
-        vec3 refractVecP = refract(eyeVector, normal, (1.0/uIorP+uOffset));
+        vec3 refractVecR = refract(eyeVector, normal,(1.0/(uIorR -1.05 * uOffset)));
+        vec3 refractVecY = refract(eyeVector, normal, (1.0/(uIorY+1.05 * uOffset)));
+        vec3 refractVecG = refract(eyeVector, normal, (1.0/(uIorG - 1.02 * uOffset)));
+        vec3 refractVecC = refract(eyeVector, normal, (1.0/(uIorC+ 1.02 * uOffset)));
+        vec3 refractVecB = refract(eyeVector, normal, (1.0/(uIorB + 1.025 * uOffset)));
+        vec3 refractVecP = refract(eyeVector, normal, (1.0/(uIorP-1.025 * uOffset)));
 
         float r = texture2D(uTargetTexture, uv + refractVecR.xy * (uRefractPower + slide * 1.0) * uChromaticAberration).x * 0.5;
 

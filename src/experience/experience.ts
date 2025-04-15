@@ -84,7 +84,7 @@ class Experience {
 
     private parallaxCalculation(): void {
         
-        this.camera.group.position.z = this.mouse.targetVelocity * 25
+        this.camera.group.position.z = -this.mouse.targetVelocity * 7.5
     }
 
 
