@@ -137,7 +137,7 @@ class ParticleSphere {
         }
 
         this.points.frustumCulled = false
-        console.log(this.points.scale)
+        // console.log(this.points.scale)
 
         this.points.renderOrder = 0
         this.points.position.set(0, 0, 0)

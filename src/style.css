@@ -27,13 +27,9 @@ body {
   padding: 0;
   min-width: 320px;
   min-height: 100vh;
-
-  /* scroll-snap-type: y mandatory;
-  scroll-snap-align: start; */
-  /* outline: 2px solid red; */
 }
 
-html.lenis,
+/* html.lenis,
 html.lenis body {
 height: auto;
 }
@@ -52,7 +48,7 @@ overflow: clip;
 
 .lenis.lenis-smooth iframe {
 pointer-events: none;
-}
+} */
 
 canvas {
   position: fixed;
@@ -67,7 +63,7 @@ header {
   position: relative;
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
+  height: 100vh;
   mix-blend-mode: difference;
   /* color: #f0ead6; */
   color: rgb(235, 235, 235);

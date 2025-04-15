@@ -23,6 +23,7 @@ class GlassDoor {
     private baseScale: boolean | null = null
 
     private fbo: THREE.WebGLRenderTarget
+    private type: THREE.TextureDataType
     
 
     public instance: Mesh
@@ -78,9 +79,13 @@ class GlassDoor {
 
         this.instance.position.set(0, 0, 0)
 
+        this.type = this.getOptimalDataType()
+
+        console.log(this.type)
+
         this.fbo = new THREE.WebGLRenderTarget(this.dimensions.width * this.dimensions.pixelRatio, this.dimensions.height * this.dimensions.pixelRatio, 
             {
-                type: THREE.UnsignedByteType,
+                type: this.type,
             }
         )
         
@@ -94,6 +99,31 @@ class GlassDoor {
     private init(): void {
         this.configSize()
         this.experience.scene.add(this.instance)
+    }
+
+    private getOptimalDataType(): THREE.TextureDataType {
+        const gl = this.renderer.instance.getContext();
+        if (this.renderer.instance.capabilities.isWebGL2) {
+            if (gl.getExtension('EXT_color_buffer_float')) {
+
+                console.log('extension EXT_color_buffer_float is supported');
+                return THREE.FloatType; 
+            }
+
+        }
+        else {
+            if (gl.getExtension('OES_texture_float')) {
+                console.log('extension OES_texture_float is supported');
+                return THREE.FloatType;
+            }
+
+            if (gl.getExtension('OES_texture_half_float')) {
+                console.log('extension OES_texture_half_float is supported');
+                return THREE.HalfFloatType; 
+            }
+        }
+        console.log('No suitable texture data type found, defaulting to UnsignedByteType');
+        return THREE.UnsignedByteType; 
     }
 
     private configSize(): void {
