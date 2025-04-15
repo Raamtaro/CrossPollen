@@ -77,6 +77,10 @@ class Mouse {
         this.coords_old.copy(this.coords);
 
         // console.log(this.coords_trail)
+
+        // if (this.targetVelocity) {
+        //     console.log(this.targetVelocity)
+        // }
     }
 }
 

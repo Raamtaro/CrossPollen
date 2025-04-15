@@ -7,7 +7,7 @@ import Mouse from '../utils/mouse.ts';
 
 import Renderer from './renderer.ts';
 import Camera from './camera.ts';
-import Resources from '../utils/emitters/resourceLoader/resources.ts';
+// import Resources from '../utils/emitters/resourceLoader/resources.ts';
 import ParticleSphere from './particles/main/particleSphere.ts';
 import GlassDoor from './glass/glassDoor.ts';
 
@@ -36,7 +36,7 @@ class Experience {
     public camera: Camera
     public mouse: Mouse
     public scene: THREE.Scene
-    public resources: Resources
+    // public resources: Resources
     public particleSphere: ParticleSphere | null = null
     public glassDoor: GlassDoor
 
@@ -55,20 +55,17 @@ class Experience {
         this.renderer = new Renderer()
         this.scene = new THREE.Scene()
 
-        this.resources = new Resources()
-        console.log(typeof this.resources.items)
+        this.parallaxSetup()
+        // this.resources = new Resources()
+        // console.log(typeof this.resources.items)
         
-        // this.particleSphere = new ParticleSphere()
+        
         
         this.glassDoor = new GlassDoor()
-        this.resources.on('ready', this.init.bind(this))
-        this.time.on('tick', this.render.bind(this)) 
-    }
-
-    private init(): void {
-       
         this.particleSphere = new ParticleSphere()
         
+        this.time.on('tick', this.render.bind(this)) 
+
     }
 
 
@@ -81,8 +78,20 @@ class Experience {
         return Experience.instance
     }
 
+    private parallaxSetup(): void {
+        this.scene.add(this.camera.group)
+    }
+
+    private parallaxCalculation(): void {
+        
+        this.camera.group.position.z = this.mouse.targetVelocity * 25
+    }
+
+
+
 
     private render(): void {
+        this.parallaxCalculation()
         this.renderer.instance.render(this.scene, this.camera.instance)
 
     }

@@ -3,7 +3,7 @@ import { TextureLoader, Texture } from "three";
 import EventEmitter from "../../eventEmitter";
 import sources from "./data/sources";
 import ModelInfo from "./data/type";
-import Experience from "../../../experience/experience";
+// import Experience from "../../../experience/experience";
 
 type ResourceFile = GLTF | Texture
 
@@ -13,7 +13,7 @@ interface ResourceDictionary {
 
 class Resources extends EventEmitter {
     public items: ResourceDictionary = {}
-    private experience: Experience 
+    // private experience: Experience 
     private sources: ModelInfo[] = sources
     private dracoLoader: DRACOLoader = new DRACOLoader()
     private gltfLoader: GLTFLoader 
@@ -26,7 +26,7 @@ class Resources extends EventEmitter {
 
     constructor() {
         super()
-        this.experience = Experience.getInstance()
+        // this.experience = Experience.getInstance()
         this.gltfLoader = new GLTFLoader()
         this.init()
     }

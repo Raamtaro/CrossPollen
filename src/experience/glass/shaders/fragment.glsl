@@ -6,6 +6,7 @@ uniform float uIorB;
 uniform float uIorY;
 uniform float uIorC;
 uniform float uIorP;
+uniform float uOffset;
 
 uniform float uRefractPower;
 uniform float uChromaticAberration;
@@ -53,23 +54,25 @@ void main () {
 
     // float iorRatio = 1.0 / 1.31;
 
-    float iorRatioR = 1.0 / uIorR;
-    float iorRatioG = 1.0 / uIorG;
-    float iorRatioB = 1.0 / uIorB;
+    // float iorRatioR = 1.0 / uIorR;
+    // float iorRatioG = 1.0 / uIorG;
+    // float iorRatioB = 1.0 / uIorB;
 
     vec3 color = vec3(0.0);
     vec2 uv = gl_FragCoord.xy/uResolution.xy;
     vec3 normal = worldNormal;
 
+    
+
     for (int i = 0; i < LOOP; i++) {
         float slide = float(i) / float(LOOP) * 0.1;
 
         vec3 refractVecR = refract(eyeVector, normal,(1.0/uIorR));
-        vec3 refractVecY = refract(eyeVector, normal, (1.0/uIorY));
+        vec3 refractVecY = refract(eyeVector, normal, (1.0/uIorY+uOffset));
         vec3 refractVecG = refract(eyeVector, normal, (1.0/uIorG));
-        vec3 refractVecC = refract(eyeVector, normal, (1.0/uIorC));
+        vec3 refractVecC = refract(eyeVector, normal, (1.0/uIorC+uOffset));
         vec3 refractVecB = refract(eyeVector, normal, (1.0/uIorB));
-        vec3 refractVecP = refract(eyeVector, normal, (1.0/uIorP));
+        vec3 refractVecP = refract(eyeVector, normal, (1.0/uIorP+uOffset));
 
         float r = texture2D(uTargetTexture, uv + refractVecR.xy * (uRefractPower + slide * 1.0) * uChromaticAberration).x * 0.5;
 

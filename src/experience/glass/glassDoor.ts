@@ -5,7 +5,7 @@ import {Mesh, ShaderMaterial} from 'three'
 import Experience from "../experience";
 import TimeKeeper from '../../utils/emitters/timeKeeper';
 import Sizes from '../../utils/emitters/sizes';
-import Mouse from '../../utils/mouse';
+import Mouse from '../../utils/mouse.ts';
 
 import vertexShader from "./shaders/vertex.glsl"
 import fragmentShader from "./shaders/fragment.glsl"
@@ -18,14 +18,14 @@ class GlassDoor {
     private dimensions: Sizes
     private time: TimeKeeper
     private mouse: Mouse
-    private geometry?: THREE.PlaneGeometry | THREE.TorusGeometry
+    private geometry: THREE.BoxGeometry
     private material: ShaderMaterial 
     private baseScale: boolean | null = null
 
     private fbo: THREE.WebGLRenderTarget
     
 
-    public instance: Mesh | THREE.Group
+    public instance: Mesh
 
 
     constructor() {
@@ -55,6 +55,7 @@ class GlassDoor {
 
                     uChromaticAberration: new THREE.Uniform(.77),
                     uRefractPower: new THREE.Uniform(0.93),
+                    uOffset: new THREE.Uniform(0.0),
                     uSaturation: new THREE.Uniform(1.07),
 
                     uShininess: new THREE.Uniform(40),
@@ -72,11 +73,6 @@ class GlassDoor {
         // this.geometry = new THREE.TorusGeometry(3.5, 1.2, 16, 100) //This is the torus geometry
         this.geometry = new THREE.BoxGeometry(5., 5., 5.) //This is the box geometry
         this.instance = new Mesh(this.geometry, this.material)
-
-
-        // //Config #2
-        // this.instance = new THREE.Group()
-        // this.sceneSetup()
 
 
 
@@ -98,24 +94,6 @@ class GlassDoor {
     private init(): void {
         this.configSize()
         this.experience.scene.add(this.instance)
-    }
-
-    private sceneSetup(): void { //Config #2
-        let i = 0;
-        while (i < 3) {
-            const newMesh = new THREE.Mesh(new THREE.PlaneGeometry(2.5, 7.5), this.material)
-            if (i == 0) {
-                newMesh.position.set(-2.75, 1.8705, 0)
-            } 
-
-            if (i == 2) {
-                newMesh.position.set(2.75, -1.8705, 0)
-            }
-
-            this.instance.add(newMesh)
-            i++
-        }
-
     }
 
     private configSize(): void {
@@ -174,13 +152,18 @@ class GlassDoor {
         this.instance.visible = true
     }
 
+    private updateIors(): void {
+        
+        (this.material as ShaderMaterial).uniforms.uOffset.value = this.mouse.targetVelocity * 0.5;
+        
+
+    }
+
     private update(): void {
         (this.material as ShaderMaterial).uniforms.uTime.value = this.time.uniformElapsed
-        // this.instance.rotation.x = -.23 * this.mouse.coords_trail.y;
-        // this.instance.rotation.y = .23 * this.mouse.coords_trail.x;
+        this.updateIors()
         this.instance.rotation.x += 0.001
         this.instance.rotation.y += 0.001
-        // this.instance.position.y = .195 * Math.sin(this.time.uniformElapsed * 0.13);
 
         
 

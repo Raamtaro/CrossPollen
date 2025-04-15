@@ -1,8 +1,8 @@
-import { BufferGeometry, IcosahedronGeometry, Vector2, Uniform, ShaderMaterial, BufferAttribute, Texture, Mesh, Points, Vector3, IUniform } from "three"
-import { GLTF } from "three/examples/jsm/Addons.js"
+import { BufferGeometry, IcosahedronGeometry, Vector2, Uniform, ShaderMaterial, BufferAttribute, Points, IUniform } from "three"
+// import { GLTF } from "three/examples/jsm/Addons.js"
 import Sizes from '../../../utils/emitters/sizes'
 import TimeKeeper from '../../../utils/emitters/timeKeeper'
-import Mouse from '../../../utils/mouse'
+
 import Experience from '../../experience'
 
 import Gpgpu from '../gpgpu/gpgpu'
@@ -10,19 +10,14 @@ import Gpgpu from '../gpgpu/gpgpu'
 import particleSimVertex from './shaders/vertex.glsl'
 import particleSimFragment from './shaders/fragment.glsl'
 
-type ResourceFile = GLTF | Texture
+// type ResourceFile = GLTF | Texture
 
-interface ResourceDictionary {
-    [name: string]: ResourceFile
-}
+// interface ResourceDictionary {
+//     [name: string]: ResourceFile
+// }
 
 interface ParticleUniforms {
     [name: string]: IUniform
-}
-
-interface ScaleConfig {
-    smallScale: Vector3
-    largeScale: Vector3
 }
 
 class ParticleSphere {
@@ -30,8 +25,8 @@ class ParticleSphere {
     private experience: Experience
     private dimensions: Sizes
     private time: TimeKeeper
-    private mouse: Mouse
-    private models: ResourceDictionary
+
+    // private models: ResourceDictionary
     private geometry: BufferGeometry
     private bufferGeometry: BufferGeometry
     private shaderMaterial: ShaderMaterial
@@ -46,14 +41,15 @@ class ParticleSphere {
     public points: Points | null = null
 
 
-    constructor(name?: string) {
+    constructor() {
         this.experience = Experience.getInstance()
         this.dimensions = this.experience.size
         this.time = this.experience.time
-        this.mouse = this.experience.mouse
-        this.models = this.experience.resources.items
+        
+        // this.models = this.experience.resources.items
 
-        this.geometry = !name ? new IcosahedronGeometry(2, 100) : this.setGeometry(name)
+        // this.geometry = !name ? new IcosahedronGeometry(2, 100) : this.setGeometry(name)
+        this.geometry = new IcosahedronGeometry(2, 100)
         this.gpgpu = new Gpgpu(this.geometry)
         this.count = this.gpgpu.count
         this.size = this.gpgpu.size
@@ -84,23 +80,23 @@ class ParticleSphere {
         
     }
     
-    private setGeometry(name: string): BufferGeometry {
-        let model: ResourceFile = this.models[name] as GLTF
-        let geometry: BufferGeometry | null = null
+    // private setGeometry(name: string): BufferGeometry {
+    //     let model: ResourceFile = this.models[name] as GLTF
+    //     let geometry: BufferGeometry | null = null
 
-        model.scene.traverse((child)=> {
-            if (child instanceof Mesh) {
-                geometry = child.geometry
-                return
-            }
-        })
+    //     model.scene.traverse((child)=> {
+    //         if (child instanceof Mesh) {
+    //             geometry = child.geometry
+    //             return
+    //         }
+    //     })
 
-        if (!geometry) {
-            throw new Error(`No mesh geometry found for model: ${name}`)
-        }
+    //     if (!geometry) {
+    //         throw new Error(`No mesh geometry found for model: ${name}`)
+    //     }
 
-        return geometry 
-    }
+    //     return geometry 
+    // }
 
     private populateArrays(): void {
         for (let y = 0; y < this.size; y++) {
@@ -175,8 +171,6 @@ class ParticleSphere {
     private update(): void {
         this.shaderMaterial.uniforms.uParticlesTexture.value = this.gpgpu.instance.getCurrentRenderTarget(this.gpgpu.particlesVariable).texture;
         this.shaderMaterial.uniforms.uTime.value = this.time.uniformElapsed;
-        // this.shaderMaterial.uniforms.uMouse.value.x = this.mouse.coords_trail.x;
-        // this.shaderMaterial.uniforms.uMouse.value.y = this.mouse.coords_trail.y;
 
         (this.points as Points).rotation.y -= 0.00025; 
         (this.points as Points).rotation.x -= 0.00025; 
