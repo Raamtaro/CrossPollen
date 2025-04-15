@@ -89,7 +89,7 @@ class GlassDoor {
 
         this.fbo = new THREE.WebGLRenderTarget(this.dimensions.width * this.dimensions.pixelRatio, this.dimensions.height * this.dimensions.pixelRatio, 
             {
-                type: this.type,
+                type: THREE.UnsignedByteType,
             }
         )
         
