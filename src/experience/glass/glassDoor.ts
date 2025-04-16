@@ -81,11 +81,11 @@ class GlassDoor {
         this.instance.position.set(0, 0, 0)
 
         this.debugElement = document.createElement('div');
-        this.debugDataType() //Debugging the data type to the HTML
+        // this.debugDataType() //Debugging the data type to the HTML
         this.type = this.getOptimalDataType()
        
 
-        console.log(this.type)
+        // console.log(this.type)
 
         this.fbo = new THREE.WebGLRenderTarget(this.dimensions.width * this.dimensions.pixelRatio, this.dimensions.height * this.dimensions.pixelRatio, 
             {
