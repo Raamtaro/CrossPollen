@@ -23,7 +23,7 @@ class GlassDoor {
     private baseScale: boolean | null = null
 
     private fbo: THREE.WebGLRenderTarget
-    private type: THREE.TextureDataType
+    private type?: THREE.TextureDataType
     private debugElement: HTMLDivElement
     
 
@@ -82,7 +82,7 @@ class GlassDoor {
 
         this.debugElement = document.createElement('div');
         // this.debugDataType() //Debugging the data type to the HTML
-        this.type = this.getOptimalDataType()
+        // this.type = this.getOptimalDataType()
        
 
         // console.log(this.type)
